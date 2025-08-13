@@ -1,100 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Affan' About Me</title>
-  <style>
-   html, body {
-    margin: 0;
-    padding: 0;
-    background-color: rgb(0, 0, 0);
-    color: rgb(252, 190, 17);
-    font-family: monospace;
-    font-size: larger;
-    text-align: center;
-    max-width: 70ch;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 100px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 100px;
-    overflow-y: auto;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affan' About Me</title>
+<style>
+html, body {
+margin: 0;
+padding: 0;
+background-color: #0000AA;  
+color: #FFFFFF;          
+font-family: "Lucida Console", monospace;
+font-size: 16px;           
+text-align: left;          
+max-width: 80ch;
+margin-left: auto;
+margin-right: auto;
+padding: 20px;
+height: 100vh;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
 
+a {
+color: #ffff55;
+text-decoration: underline;
+}
 
+a:hover {
+color: #ffcc00;
+}
 
+p {
+margin-bottom: 15px;
+line-height: 1.4;
+}
 
-    }
-      a {
-            color: rgb(255, 255, 255);
-            text-decoration: none;
-        }
+.encrypted {
+color: #00ff00;
+animation: flicker 0.1s infinite;
+}
 
-        a:visited {
-            color:rgb(116, 102, 0);
-        }
+@keyframes flicker {
+0%, 50% { opacity: 1; }
+51%, 100% { opacity: 0.7; }
+}
 
-        a:hover {
-            color: rgb(241, 241, 241);
-            text-decoration: underline;
-        }
-
-        p {
-            margin-bottom: 40px; 
-        }
-
-        
-        
-    </style>
+.content {
+display: flex;
+flex-direction: column;
+justify-content: center;
+height: 100%;
+}
+</style>
 </head>
 <body>
+<div class="content">
+<p>
+ howdy! hope this finds you well and stuff<br>
+Long story short-
+</p>
+<p>
+I'm <strong>Affan Khan</strong>, 19, a first-year CS student at BITS Pilani, a tech enthusiast and a creative. Doesn't this seem too much for a creative?
+</p>
+<p>
+ You can reach out to me via <a href="hahaffan@gmail.com" target="_blank">Gmail</a> or connect with me on <a href="https://www.linkedin.com/in/hahaffan" target="_blank">LinkedIn</a>. If you really want the unfiltered side- heres my <a href="https://instagram.com/affankhan10_" target="_blank">Instagram</a>
+</p>
+<p>
+ Here's my <a href="https://github.com/hahaffan" target="_blank">GitHub</a> (haven't used it yet — please forgive me, I still need the tech bros' validation)
+</p>
+<p>
+I have experience interning at Justdial, AF Wealth Advisors, GamingOnPhone etc.
+</p>
+<p>
+ I also organize <a href="https://event.codeday.org/en-US/lucknow" target="_blank">CodeDay Lucknow</a>, an international hackathon, which is also the biggest CodeDay worldwide.
+</p>
+<p>
+ Apart from being a corporate slave, I run a nonprofit, <a href="https://www.instagram.com/leoclub_yuvaoudh/?hl=af" target="_blank">Yuva Oudh</a>, recognized by UNICEF. I also in my free time like to play football (would've gone pro if not for my injury). 24 hours on <a href="https://open.spotify.com/user/31eek7etvogflsfg4ni6do3nca2e?si=9116640bcd8043d9" target="_blank">Spotify</a> and a professional movie critic on <a href="https://letterboxd.com/hahaffan/">Letterboxd</a>.
+</p>
+<p>
+ Enough yapping, let's connect now?
+</p>
+</div>
 
-<p>
-    howdy! hope this finds you well and stuff
-Long story short-<br>
-</p>
-<p>
-I’m <strong>Affan Khan</strong>, 19,
- a first-year CS student at BITS Pilani, 
- a tech enthusiast and a creative. <br>
-Doesn’t this seem too much for a creative?
-</p>
+<script>
+const encryptChars = '!@#$%^&*(){}[]+=~`';
 
-<p>
-  You can reach out to me via <a href="hahaffan@gmail.com" target="_blank">Mail</a>
-    or connect with me on <a href="https://www.linkedin.com/in/hahaffan" target="_blank">LinkedIn</a>. 
-    If you really want the unfiltered side- 
-    heres my <a href="https://instagram.com/affankhan10_" target="_blank"></a>Instagram</a>
-</p>
+const paragraphs = document.querySelectorAll('p');
+const originalTexts = [];
 
-<p>
-    Here’s my <a href="https://github.com/hahaffan" target="_blank">GitHub</a> (haven’t used it yet — 
-        please forgive me,
-         I still need the tech bros’ validation)
-</p>
+paragraphs.forEach((p, index) => {
+    originalTexts[index] = p.innerHTML;
+});
 
-<p>
-I have experience interning at 
-Justdial, AF Wealth Advisors, GamingOnPhone etc.
-</p>
+function encryptText(text) {
+    const parts = text.split(/(<[^>]*>)/);
+    
+    return parts.map(part => {
+        if (part.match(/^<[^>]*>$/)) {
+            return part;
+        }
+        let encrypted = '';
+        for (let i = 0; i < part.length; i++) {
+            if (part[i] === ' ' || part[i] === '\n' || part[i] === '\t' || part[i] === '\r') {
+                encrypted += part[i];
+            } else {
+                encrypted += encryptChars[Math.floor(Math.random() * encryptChars.length)];
+            }
+        }
+        return encrypted;
+    }).join('');
+}
+function decryptParagraph(paragraph, originalHTML, callback) {
+    const totalFrames = 8;
+    let currentFrame = 0;
+    
+    const decryptInterval = setInterval(() => {
+        const parts = originalHTML.split(/(<[^>]*>)/);
+        
+        const newHTML = parts.map(part => {
+            if (part.match(/^<[^>]*>$/)) {
+                return part;
+            }
+            
+            let newContent = '';
+            for (let i = 0; i < part.length; i++) {
+                if (part[i] === ' ' || part[i] === '\n' || part[i] === '\t' || part[i] === '\r') {
+                    newContent += part[i];
+                } else if (Math.random() < currentFrame / totalFrames) {
+                    newContent += part[i];
+                } else {
+                    newContent += encryptChars[Math.floor(Math.random() * encryptChars.length)];
+                }
+            }
+            return newContent;
+        }).join('');
+        
+        paragraph.innerHTML = newHTML;
+        currentFrame++;
+        
+        if (currentFrame > totalFrames) {
+            clearInterval(decryptInterval);
+            paragraph.innerHTML = originalHTML;
+            paragraph.classList.remove('encrypted');
+            if (callback) callback();
+        }
+    }, 30);
+}
 
-<p>
-  I also organize <a href="https://event.codeday.org/en-US/lucknow" target="_blank">CodeDay Lucknow</a>, 
-  an international hackathon, 
-  which is also the biggest CodeDay worldwide.   
-</p>
+paragraphs.forEach((p, index) => {
+    p.classList.add('encrypted');
+    p.innerHTML = encryptText(originalTexts[index]);
+});
 
-<p>
- Apart from being a corporate slave,
-I run a nonprofit, <a href="https://www.instagram.com/leoclub_yuvaoudh/?hl=af" target="_blank">Yuva Oudh</a>, recognized by UNICEF.
-I also in my free time like to play football 
-(would’ve gone pro if not for my injury). 
-24 hours on <a href="https://open.spotify.com/user/31eek7etvogflsfg4ni6do3nca2e?si=9116640bcd8043d9" target="_blank">Spotify</a> and a professional movie critic on <a href="https://letterboxd.com/hahaffan/">Letterboxd</a>.
-</p>
+const encryptionInterval = setInterval(() => {
+    paragraphs.forEach((p, index) => {
+        if (p.classList.contains('encrypted')) {
+            p.innerHTML = encryptText(originalTexts[index]);
+        }
+    });
+}, 100);
 
-<p>
-  Enough yapping, let’s connect now?  
-</p>
+setTimeout(() => {
+    const totalDuration = 1500; 
+    const delayBetweenParagraphs = totalDuration / paragraphs.length;
+    
+    paragraphs.forEach((p, index) => {
+        setTimeout(() => {
+            decryptParagraph(p, originalTexts[index]);
+        }, index * delayBetweenParagraphs);
+    });
+}, 500);
+
+setTimeout(() => {
+    clearInterval(encryptionInterval);
+}, 2500);
+</script>
 </body>
 </html>
